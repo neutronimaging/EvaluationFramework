@@ -10,4 +10,4 @@ The test procedure can also be used for parameter scans to identify the sensitiv
 
 
 ## Documentation
-The documentation is found [here](docs/index.md)
+The documentation is found [here](doc/index.md)
