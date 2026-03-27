@@ -1,6 +1,8 @@
 import numpy as np
+from skimage.metrics import structural_similarity as ssim
 
 from ..core.metric import Metric
+
 
 class mse(Metric):
     def __init__(self, name="mse"):
@@ -179,3 +181,20 @@ class mad(Metric):
         median = np.median(y_true)
         mad_value = np.median(np.abs(y_true - median))
         return { self.name : mad_value }
+    
+class SSIM(Metric):
+    def __init__(self, name="mSSIM"):
+        super().__init__(name)
+
+    def compute(self, y_true, y_pred = None):
+        if y_pred is None:
+            raise ValueError("y_pred cannot be None for mSSIM metric.")
+        
+        if y_true.ndim != 2 or y_pred.ndim != 2:
+            raise ValueError("y_true and y_pred must be 2D arrays for mSSIM metric.")   
+        
+        y_true = np.asarray(y_true)
+        y_pred = np.asarray(y_pred)
+        # Placeholder for actual mSSIM computation
+
+        return { self.name : ssim(y_true, y_pred, data_range=y_true.max() - y_true.min()) }

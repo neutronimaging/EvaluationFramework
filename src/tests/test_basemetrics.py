@@ -1,5 +1,6 @@
 import numpy as np
 import pytest 
+from skimage.metrics import structural_similarity as ssim
 import evaluation.metrics.basemetrics as basemetrics
 
 def test_mse():
@@ -68,3 +69,18 @@ def test_mae_percentage():
     y_pred = [2, 3, 4]
     res = metric.compute(y_true, y_pred)
     assert res[metric.name] == 61.11111111111111
+
+def test_SSIM():
+    metric = basemetrics.SSIM()
+    N=100
+    x,y = np.meshgrid(np.linspace(0, N-1, N), np.linspace(0, N-1, N))
+    w = x+y*N
+    y_true = w
+    y_pred = w
+    res = metric.compute(y_true, y_pred)
+    assert res[metric.name] == 1.0
+    
+    np.random.seed(42)
+    y_pred = w+np.random.normal(0, 100, size=w.shape)
+    res = metric.compute(y_true, y_pred)
+    assert np.round(res[metric.name],6) ==  0.944197
