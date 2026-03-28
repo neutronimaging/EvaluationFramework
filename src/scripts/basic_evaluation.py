@@ -2,21 +2,27 @@ import numpy as np
 import pandas as pd
 
 import sys
-sys.path.append("../")
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+
 import evaluation.algorithms.basic_algorithms as alg
-import evaluation.core.dataset as ds
+# from evaluation.core.dataset import DataSet as ds
 import evaluation.metrics.basemetrics as metrics
 from evaluation.runner import basic_runner as runner
-
+import evaluation.datasets.constant_level_data as cld 
 
 if __name__ == "__main__":
     # Create some synthetic datasets
 
-    N=512
+    N=100
 
-    datasets = [ds.Dataset(name="dataset1", data=np.random.normal(size=[N,N])),
-                ds.Dataset(name="dataset2", data=np.random.normal(size=[N,N]))]
-
+    gen = cld.ConstantLevelData(dims=[N,N])
+        # datasets = [ds.Dataset(name="dataset1", data=np.random.normal(size=[N,N])),
+        #             ds.Dataset(name="dataset2", data=np.random.normal(size=[N,N]))]
+    datasets = gen.generate(batch_size=5, noise_level=0.1, params={"level": 0.5, "seed": 42})
+    
     # Create some algorithms
     algorithms = [alg.identity(), alg.gauss_filter(sigma=1.0)]
 
