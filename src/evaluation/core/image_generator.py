@@ -3,7 +3,7 @@ from .dataset import Dataset
 
 class ImageGenerator:
     def __init__(self, name : str, dims : list[int]):
-        if len(dims) != 2 and len(dims) != 3:
+        if dims is not None and (len(dims) != 2 and len(dims) != 3):
             raise ValueError("dims must be a list of 2 or 3 integers")
         
         self._dims = dims

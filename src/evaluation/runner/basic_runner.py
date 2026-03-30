@@ -1,3 +1,5 @@
+import os
+
 from ..metrics import basemetrics
 from ..core.algorithm import Algorithm
 from ..core.dataset import Dataset
@@ -10,13 +12,22 @@ class BasicRunner:
         else:
             self._metrics = metrics
 
-    def run(self, datasets: list[Dataset], algorithms: list[Algorithm]):
+    def run(self, datasets: list[Dataset], algorithms: list[Algorithm], save_images: bool = False) -> list[dict]:
+        if save_images:
+            os.makedirs("./patches/original", exist_ok=True)
+            # os.makedirs("./patches/processed", exist_ok=True)
+            for k,dataset in enumerate(datasets):
+                # Save original image
+                fname = dataset.name.split('/')[-1].split('.')[0]
+                dataset.save(f"./patches/original/{fname}_{k:04d}.tif")
+
         run_results = []
         for algorithm in algorithms:
             for dataset in datasets:
-                y_true = dataset.data
 
+                y_true = dataset.data
                 y_pred = algorithm.run(y_true)
+                
                 results = {'algorithm': algorithm.name, 
                            'dataset':   dataset.name,
                            'timing':    algorithm.timing}
