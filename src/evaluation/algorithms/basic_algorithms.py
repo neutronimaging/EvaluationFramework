@@ -1,5 +1,6 @@
 import numpy as np
 import scipy
+import skimage.filters as flt
 
 from ..core.algorithm import Algorithm
 
@@ -17,3 +18,11 @@ class gauss_filter(Algorithm):
 
     def _run(self, X):
         return scipy.ndimage.gaussian_filter(X, sigma=self.sigma)
+
+class median_filter(Algorithm):
+    def __init__(self, name="median_filter", footprint_size=3):
+        super().__init__(name)
+        self._footprint_size = footprint_size
+
+    def _run(self, X):
+        return flt.median(X, footprint=np.ones((self._footprint_size, self._footprint_size)))

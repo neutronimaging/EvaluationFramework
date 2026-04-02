@@ -1,5 +1,6 @@
 import numpy as np
 from skimage.metrics import structural_similarity as ssim
+import scipy.stats as stats
 
 from ..core.metric import Metric
 
@@ -8,9 +9,9 @@ class mse(Metric):
     def __init__(self, name="mse"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        if y_pred is None:
-            raise ValueError("y_pred cannot be None for mse metric.")
+    def compute(self, y_pred, y_true = None):
+        if y_true is None:
+            raise ValueError("y_true cannot be None for mse metric.")
         
         y_true = np.asarray(y_true)
         y_pred = np.asarray(y_pred)
@@ -20,9 +21,9 @@ class mae(Metric):
     def __init__(self, name="mae"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        if y_pred is None:
-            raise ValueError("y_pred cannot be None for mae metric.")
+    def compute(self, y_pred, y_true = None):
+        if y_true is None:
+            raise ValueError("y_true cannot be None for mae metric.")
         
         y_true = np.asarray(y_true)
         y_pred = np.asarray(y_pred)
@@ -32,8 +33,8 @@ class r2(Metric):
     def __init__(self, name="r2"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        if y_pred is None:
+    def compute(self, y_pred, y_true = None):
+        if y_true is None:
             raise ValueError("y_pred cannot be None for r2 metric.")
         
         y_true = np.asarray(y_true)
@@ -47,21 +48,37 @@ class rmse(Metric):
     def __init__(self, name="rmse"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        if y_pred is None:
+    def compute(self, y_pred, y_true = None):
+        if y_true is None:
             raise ValueError("y_pred cannot be None for rmse metric.")
         
         y_true = np.asarray(y_true)
         y_pred = np.asarray(y_pred)
         return { self.name : np.sqrt(((y_true - y_pred) ** 2).mean()) }
     
+class skewness(Metric):
+    def __init__(self, name="skewness"):
+        super().__init__(name)
+
+    def compute(self, y_pred, y_true = None):
+        y_pred = np.asarray(y_pred)
+        return { self.name : stats.skew(y_pred.ravel()) }
+
+class kurtosis(Metric):
+    def __init__(self, name="kurtosis"):
+        super().__init__(name)
+
+    def compute(self, y_pred, y_true  = None):
+        y_pred = np.asarray(y_pred)
+        return { self.name : stats.kurtosis(y_pred.ravel()) }
+
 class mae_percentage(Metric):
     def __init__(self, name="mae_percentage"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        if y_pred is None:
-            raise ValueError("y_pred cannot be None for mae_percentage metric.")
+    def compute(self, y_pred, y_true = None):
+        if y_true is None:
+            raise ValueError("y_true cannot be None for mae_percentage metric.")
         
         y_true = np.asarray(y_true)
         y_pred = np.asarray(y_pred)
@@ -71,9 +88,9 @@ class mse_percentage(Metric):
     def __init__(self, name="mse_percentage"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        if y_pred is None:
-            raise ValueError("y_pred cannot be None for mse_percentage metric.")
+    def compute(self, y_pred, y_true = None):
+        if y_true is None:
+            raise ValueError("y_true cannot be None for mse_percentage metric.")
         
         y_true = np.asarray(y_true)
         y_pred = np.asarray(y_pred)
@@ -83,9 +100,9 @@ class rmse_percentage(Metric):
     def __init__(self, name="rmse_percentage"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        if y_pred is None:
-            raise ValueError("y_pred cannot be None for rmse_percentage metric.")
+    def compute(self, y_pred, y_true = None):
+        if y_true is None:
+            raise ValueError("y_true cannot be None for rmse_percentage metric.")
         
         y_true = np.asarray(y_true)
         y_pred = np.asarray(y_pred)
@@ -152,44 +169,44 @@ class mean(Metric):
     def __init__(self, name="mean"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        y_true = np.asarray(y_true)
-        return { self.name : y_true.mean() }
+    def compute(self, y_pred, y_true = None):
+        y_pred = np.asarray(y_pred)
+        return { self.name : y_pred.mean() }
     
 class median(Metric):
     def __init__(self, name="median"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        y_true = np.asarray(y_true)
-        return { self.name : np.median(y_true) }
+    def compute(self, y_pred, y_true = None):
+        y_pred = np.asarray(y_pred)
+        return { self.name : np.median(y_pred) }
     
 class std(Metric):
     def __init__(self, name="std"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        y_true = np.asarray(y_true)
-        return { self.name : y_true.std() }
+    def compute(self, y_pred, y_true = None):
+        y_pred = np.asarray(y_pred)
+        return { self.name : y_pred.std() }
     
 class mad(Metric):
     def __init__(self, name="mad"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        y_true = np.asarray(y_true)
-        median = np.median(y_true)
-        mad_value = np.median(np.abs(y_true - median))
+    def compute(self, y_pred, y_true = None):
+        y_pred = np.asarray(y_pred)
+        median = np.median(y_pred)
+        mad_value = np.median(np.abs(y_pred  - median))
         return { self.name : mad_value }
     
-class SSIM(Metric):
+class mSSIM(Metric):
     def __init__(self, name="mSSIM"):
         super().__init__(name)
 
-    def compute(self, y_true, y_pred = None):
-        if y_pred is None:
-            raise ValueError("y_pred cannot be None for mSSIM metric.")
-        
+    def compute(self, y_pred, y_true = None):
+        if y_true is None:
+            raise ValueError("y_true cannot be None for mSSIM metric.")
+
         if y_true.ndim != 2 or y_pred.ndim != 2:
             raise ValueError("y_true and y_pred must be 2D arrays for mSSIM metric.")   
         

@@ -5,7 +5,7 @@ class Metric:
     def __init__(self, name):
         self._name = name
 
-    def compute(self, y_true, y_pred = None):
+    def compute(self, y_pred, y_true = None):
         raise NotImplementedError("Subclasses should implement this method.")
     
     @property
