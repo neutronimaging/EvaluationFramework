@@ -33,7 +33,7 @@ class BasicRunner:
                            'timing':    algorithm.timing}
             
                 for metric in self._metrics:
-                    res = metric.compute(y_true, y_pred)
+                    res = metric.compute(y_pred, y_true)
                     results.update(res)
                 
                 run_results.append(results)

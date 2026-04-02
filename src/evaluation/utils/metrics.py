@@ -3,6 +3,8 @@ from scipy.ndimage.morphology import distance_transform_edt as edt
 from scipy.ndimage import sobel
 import skimage.filters as flt
 
+from scipy.optimize import curve_fit
+
 def misclasification_distance(gt,pr,decimals=0) :
     '''
     Counts the number of false positves and false negatives as function of distance from the edge of the ground truth.
@@ -167,7 +169,8 @@ def mad_outlier_fraction(
     z = np.zeros_like(x, dtype=float)
     z[valid] = 0.6745 * (x[valid] - med) / mad
 
-    outliers = np.abs(z[valid]) > k
+    # outliers = np.abs(z[valid]) > k
+    outliers = z[valid] > k
     f_out = np.mean(outliers)
 
     if return_z:
@@ -208,15 +211,49 @@ def local_mad_outlier_fraction(
 
     x = np.asarray(img)
     med = flt.median(x, footprint=footprint)
-    mad = np.median(np.abs(x - med))
+    diff = x - med
+    mad = np.median(np.abs(diff))
 
     # Avoid division by zero (flat image case)
     mad = max(mad, eps)
 
   
-    z = 0.6745 * (x - med) / mad
+    z = 0.6745 * (diff) / mad
 
-    outliers = np.abs(z) > k
+    # outliers = np.abs(z) > k
+    outliers = z > k
+    f_out = np.mean(outliers)
+
+    if return_z:
+        return f_out, z
+    else:
+        return f_out
+    
+def gaussian(x, amp, mu, sigma):
+    return amp * np.exp(-(x - mu)**2 / (2 * sigma**2))
+
+def fitted_outlier_fraction(
+    img,
+    k=3.0,
+    footprint=np.ones([7,7]),
+    eps=1e-12,
+    return_z=False
+):
+    x = np.asarray(img)
+
+    hlog,blog = np.histogram(x.ravel(), bins=np.logspace(np.log10(np.maximum(x.min(),1)), np.log10(x.max()),np.min(img.shape)))
+
+    # h_bad_count = (~np.isfinite(hlog)).sum()
+    # b_bad_count = (~np.isfinite(blog)).sum()
+
+    try:
+        popt, pcov = curve_fit(gaussian, blog[:-1], hlog, p0=[hlog.max(), np.mean(blog), np.std(blog)])
+    except:
+        popt = [hlog.max(), np.mean(blog), np.std(blog)]
+    amp, mu, sigma = popt
+    
+
+    outliers = (x > (mu+k*sigma)).astype(float)
     f_out = np.mean(outliers)
 
     if return_z:
