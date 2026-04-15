@@ -16,7 +16,7 @@ import random
 from pathlib import Path
 
 import numpy as np
-from skimage.draw import disk,ellipse
+from skimage.draw import disk
 from skimage.filters import gaussian
 from skimage.io import imsave
 from skimage.util import random_noise
