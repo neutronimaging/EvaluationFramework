@@ -5,9 +5,9 @@ Pixel values in [0.0, 1.0], saved as 32-bit TIFF by default.
 Optional Gaussian blur and Gaussian noise applied post-render.
 
 Usage:
-    python gen_circles.py [--width W] [--height H] [--r1 R1] [--r2 R2]
-                          [--n N] [--bg BG] [--fg FG] [--out PATH] [--seed S]
-                          [--margin M] [--blur SIGMA] [--noise SIGMA]
+    python src/evaluation/utils/disks.py [--width W] [--height H] [--r1 R1] [--r2 R2]
+                                       [--n N] [--bg BG] [--fg FG] [--out PATH] [--seed S]
+                                       [--margin M] [--blur SIGMA] [--noise SIGMA]
 """
 
 import argparse
