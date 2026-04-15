@@ -28,10 +28,10 @@ def line_pattern_2d(segmentwidth,segmentheight,f) :
     f -- list of periods
     
     """
-    x=linepattern(segmentwidth,f)
+    x = line_pattern(segmentwidth,f)
     y=[np.ones(len(x)),x,np.ones(len(x))]
     
-    return np.repeat(x,segmentheight)
+    return np.tile(x, (segmentheight, 1))
 
 def contraststeps(neutrons=100,scalex=20,scaley=50) :
     """ Generates a constrst step wedge
