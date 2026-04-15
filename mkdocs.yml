@@ -1,0 +1,17 @@
+site_name: EvaluationFramework
+site_description: Generalized framework for systematic evaluation of algorithms
+repo_url: https://github.com/neutronimaging/EvaluationFramework
+repo_name: neutronimaging/EvaluationFramework
+
+docs_dir: doc
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Design: design/index.md
+  - User guide: user/index.md
+
+plugins:
+  - search
