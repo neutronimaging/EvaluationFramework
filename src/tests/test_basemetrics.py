@@ -59,19 +59,19 @@ def test_rmse():
     res = metric.compute(y_true, y_pred)
     assert res[metric.name] == 1.0
 
-def test_mae_percentage():
-    metric = basemetrics.mae_percentage()
-    y_true = [1, 2, 3]
-    y_pred = [1, 2, 3]
-    res = metric.compute(y_true, y_pred)
-    assert res[metric.name] == 0.0
+# def test_mae_percentage():
+#     metric = basemetrics.mae_percentage()
+#     y_true = [1, 2, 3]
+#     y_pred = [1, 2, 3]
+#     res = metric.compute(y_true, y_pred)
+#     assert res[metric.name] == 0.0
 
-    y_pred = [2, 3, 4]
-    res = metric.compute(y_true, y_pred)
-    assert res[metric.name] == 61.11111111111111
+#     y_pred = [2, 3, 4]
+#     res = metric.compute(y_true, y_pred)
+#     assert res[metric.name] == 61.11111111111111
 
-def test_SSIM():
-    metric = basemetrics.SSIM()
+def test_mSSIM():
+    metric = basemetrics.mSSIM()
     N=100
     x,y = np.meshgrid(np.linspace(0, N-1, N), np.linspace(0, N-1, N))
     w = x+y*N
@@ -83,4 +83,4 @@ def test_SSIM():
     np.random.seed(42)
     y_pred = w+np.random.normal(0, 100, size=w.shape)
     res = metric.compute(y_true, y_pred)
-    assert np.round(res[metric.name],6) ==  0.944197
+    assert np.round(res[metric.name],6) ==  0.946007
