@@ -8,3 +8,9 @@ There are already some modules provide with the framework distribution but it is
 The sections are 
  
 - [Data generators](data_generators)
+- [Algorithms](algorithms)
+- [Metrics](metrics)
+- [Reporting](reporting)
+- [Visualization](visualization)
+
+[Return to the main user documentation page](index)
