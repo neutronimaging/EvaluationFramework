@@ -1,7 +1,7 @@
 # User documentation
 
-- [Introduction](introduction)
-- [Prepare the environment](prepare)
-- [Basic demonstration](Basic_demonstration)
-- [Module descriptions](module_descriptions)
+- [Introduction](introduction.md)
+- [Prepare the environment](prepare.md)
+- [Basic demonstration](Basic_demonstration.md)
+- [Module descriptions](module_descriptions.md)
 
