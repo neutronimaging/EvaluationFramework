@@ -43,7 +43,7 @@ print(df)
 ```
 
 ## Run the test script
-Follow the steps described in the [preparation](preparation) section of this documentation to provide the needed python environment for the evaluation. Open a terminal and go to the location of the script.
+Follow the steps described in the [preparation](preparation.md) section of this documentation to provide the needed python environment for the evaluation. Open a terminal and go to the location of the script.
 Go to either to the location of the script you wrote or to the demo script folder
 ```bash
 cd src/scripts
