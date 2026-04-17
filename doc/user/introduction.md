@@ -12,4 +12,4 @@ The [basic runners class](https://github.com/neutronimaging/EvaluationFramework/
 
 A figure should come here to show the flow of the runner.
 
-[Return to the main user documentation page](index)
+[Return to the main user documentation page](index.md)
