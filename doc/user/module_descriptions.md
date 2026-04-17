@@ -7,4 +7,4 @@ There are already some modules provide with the framework distribution but it is
 
 The sections are 
  
-- [Data generators](data_generators)
+- [Data generators](data_generators.md)
